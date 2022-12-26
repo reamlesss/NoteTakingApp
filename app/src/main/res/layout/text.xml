@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/itemtext"
+    android:layout_width="match_parent"
+    android:textSize="30sp"
+
+    android:paddingLeft="20sp"
+    android:lines="2"
+    android:gravity="center|left"
+    android:background="@drawable/back"
+    android:fontFamily="sans-serif-medium"
+    android:textFontWeight="@android:integer/config_mediumAnimTime"
+    android:layout_height="match_parent"
+    >
+
+
+</TextView>
