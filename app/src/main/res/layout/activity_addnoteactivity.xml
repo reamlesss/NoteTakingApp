@@ -6,83 +6,84 @@
     android:layout_height="match_parent"
     tools:context=".addnoteactivity">
 
+
     <EditText
-        android:id="@+id/editTextTextMultiLine"
-        android:layout_width="340dp"
-        android:layout_height="wrap_content"
-        android:background="@drawable/back"
+        android:id="@+id/Textedit"
+        android:layout_width="407dp"
+        android:layout_height="272dp"
+        android:layout_marginEnd="2dp"
+        android:background="@android:color/transparent"
         android:ems="10"
-
-
-        android:gravity="top"
-        android:hint="Note"
-        android:inputType="textMultiLine"
-        android:maxLines="3000"
+        android:fontFamily="sans-serif-medium"
+        android:gravity="top|left"
+        android:hint="@string/note"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="2000"
+        android:maxLines="200000"
         android:minLines="3"
         android:paddingLeft="5dp"
-        android:textSize="15sp"
+        android:textSize="25sp"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.492"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.365"
-        tools:ignore="RtlCompat" />
+        app:layout_constraintVertical_bias="0.14"
+        tools:ignore="MissingConstraints" />
 
     <EditText
 
-        android:id="@+id/title"
+        android:id="@+id/title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/back"
+        android:layout_marginTop="12dp"
+        android:background="@android:color/transparent"
         android:ems="10"
-
-
-        android:gravity="center"
-        android:hint="Title"
+        android:gravity="left|center"
+        android:hint="@string/title"
         android:inputType="textMultiLine"
         android:lines="2"
-        android:textAlignment="center"
-        android:textSize="20dp"
+
+        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/editTextTextMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.025"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89"
         tools:ignore="RtlCompat" />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/delete2"
         android:layout_width="104dp"
         android:layout_height="62dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="177dp"
-        android:layout_marginEnd="168dp"
         android:layout_marginBottom="32dp"
-        android:text="DELETE"
+        android:background="@drawable/buttonback"
+        android:text="@string/delete"
+        android:textColor="@color/white"
 
         app:layout_constraintBottom_toBottomOf="parent"
 
         app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintVertical_bias="1.0" />
+        />
 
-    <Button
+    <androidx.appcompat.widget.AppCompatButton
 
         android:id="@+id/done2"
         android:layout_width="104dp"
         android:layout_height="62dp"
-        android:layout_marginTop="177dp"
-        android:layout_marginEnd="19dp"
+        android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
-        android:text="DONE"
+        android:background="@drawable/buttonback"
+        android:text="@string/done"
+        android:textColor="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
 
 
-        app:layout_constraintVertical_bias="1.0" />
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

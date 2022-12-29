@@ -1,21 +1,26 @@
 package com.example.notetakingapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
-import android.widget.TextView;
+
+import android.widget.Toast;
 
 
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -26,6 +31,43 @@ public class MainActivity extends AppCompatActivity {
    static ArrayList<String> titles = new ArrayList<>();
 
     static ArrayAdapter adapter;
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater menuInflater = getMenuInflater();
+        menuInflater.inflate(R.menu.overflowmenu,menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        switch(item.getItemId()){
+            case R.id.deleteall:
+                notes.clear();
+                titles.clear();
+                MainActivity.adapter.notifyDataSetChanged();
+                SharedPreferences sh = getApplicationContext().getSharedPreferences("com.example.notetakingapp", Context.MODE_PRIVATE);
+                HashSet<String> setN = new HashSet<>(notes);
+                HashSet<String> setT = new HashSet<>(titles);
+                sh.edit().putStringSet("notes",setN).apply();
+                sh.edit().putStringSet("titles",setT).apply();
+                Toast.makeText(this,"All notes have been deleted",Toast.LENGTH_LONG).show();
+                break;
+            case R.id.Hint:
+                hintDialog();
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+        return true;
+
+    }
+
+    public void hintDialog(){
+        HintDialog hintDialog = new HintDialog();
+        hintDialog.show(getSupportFragmentManager(),"hintdialog");
+
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,6 +106,7 @@ public class MainActivity extends AppCompatActivity {
 
         listView.setAdapter(adapter);
         Button add = findViewById(R.id.button);
+
 
         add.setOnClickListener(new View.OnClickListener() {
             @Override

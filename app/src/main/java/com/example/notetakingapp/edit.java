@@ -1,24 +1,35 @@
 package com.example.notetakingapp;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlertDialog;
+import android.app.DatePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import java.util.Calendar;
 import java.util.HashSet;
 
 public class edit extends AppCompatActivity {
 
     String notechange = null;
     String titlechange = null;
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,26 +40,44 @@ public class edit extends AppCompatActivity {
         EditText t = (EditText) findViewById(R.id.Textedit);
         EditText title = (EditText) findViewById(R.id.title2);
         Intent intent = getIntent();
+        int noteid = intent.getIntExtra("noteID",-1);
+
+
 
         Button delete = findViewById(R.id.delete);
         Button done = findViewById(R.id.done);
+        Button share = findViewById(R.id.sharebutton);
 
         System.out.println("button work");
-
-
-        int noteid = intent.getIntExtra("noteID",-1);
-        System.out.println(noteid);
-
-
-
 
         if(noteid != -1){
 
             t.setText(MainActivity.notes.get(noteid));
         }
-        if(noteid != -1){
+        if(noteid != -1) {
             title.setText(MainActivity.titles.get(noteid));
         }
+
+
+
+        share.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent send = new Intent(Intent.ACTION_SEND);
+                send.setType("text/plain");
+                String shareTittle = MainActivity.titles.get(noteid);
+                String shareNote = MainActivity.notes.get(noteid);
+                String shareboth = shareTittle+": "+shareNote;
+                send.putExtra(Intent.EXTRA_TEXT,shareboth);
+                startActivity(Intent.createChooser(send,"Share with"));
+            }
+        });
+
+
+
+
+
+
 
 
 
@@ -132,4 +161,5 @@ public class edit extends AppCompatActivity {
             }
         });
     }
+
 }

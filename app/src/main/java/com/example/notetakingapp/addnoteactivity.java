@@ -23,10 +23,8 @@ public class addnoteactivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_addnoteactivity);
-        EditText r = (EditText) findViewById(R.id.editTextTextMultiLine);
-        EditText title = (EditText) findViewById(R.id.title);
-
-                ;
+        EditText r = (EditText) findViewById(R.id.Textedit);
+        EditText title = (EditText) findViewById(R.id.title2);
         Intent ab = getIntent();
         Button done = findViewById(R.id.done2);
         Button delete = findViewById(R.id.delete2);

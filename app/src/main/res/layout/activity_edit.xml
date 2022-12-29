@@ -14,36 +14,29 @@
         android:id="@+id/title2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="264dp"
-        android:layout_marginBottom="40dp"
-
-        android:backgroundTint="@color/blue"
+        android:layout_marginTop="16dp"
+        android:background="@android:color/transparent"
         android:ems="10"
-
-        android:background="@drawable/backforedit"
-
-        android:gravity="center"
+        android:gravity="left|center"
         android:hint="@string/title"
         android:inputType="textMultiLine"
         android:lines="2"
-        android:textAlignment="center"
-        android:textSize="20sp"
+        android:paddingLeft="3sp"
 
+        android:textSize="30sp"
         android:textStyle="bold"
-        app:layout_constraintBottom_toTopOf="@+id/Textedit"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.89"
         tools:ignore="RtlCompat" />
 
     <EditText
         android:id="@+id/Textedit"
-        android:layout_width="262dp"
-        android:layout_height="65dp"
+        android:layout_width="406dp"
+        android:layout_height="205dp"
         android:layout_marginEnd="2dp"
-        android:background="@drawable/back"
+        android:background="@android:color/transparent"
         android:ems="10"
         android:fontFamily="sans-serif-medium"
         android:gravity="top|left"
@@ -53,15 +46,15 @@
         android:maxLines="200000"
         android:minLines="3"
         android:paddingLeft="5dp"
-        android:textSize="15sp"
-        android:backgroundTint="@color/blue"
+        android:textSize="25sp"
+
 
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
+        app:layout_constraintHorizontal_bias="0.108"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.435"
+        app:layout_constraintVertical_bias="0.117"
         tools:ignore="MissingConstraints" />
 
     <Button
@@ -70,14 +63,15 @@
         android:layout_height="62dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="177dp"
-        android:layout_marginEnd="168dp"
+        android:layout_marginEnd="136dp"
         android:layout_marginBottom="32dp"
-        android:text="@string/delete"
 
         android:background="@drawable/buttonback"
 
+        android:text="@string/delete"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/done"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/Textedit"
         app:layout_constraintVertical_bias="1.0" />
@@ -86,7 +80,6 @@
         android:id="@+id/done"
         android:layout_width="104dp"
         android:layout_height="62dp"
-        android:layout_marginStart="217dp"
         android:layout_marginTop="177dp"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="32dp"
@@ -95,7 +88,17 @@
         android:text="@string/done"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/Textedit"
         app:layout_constraintTop_toBottomOf="@+id/Textedit"
         app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/sharebutton"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="4dp"
+        android:foreground="@drawable/sharewhite"
+        android:foregroundGravity="center"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>
