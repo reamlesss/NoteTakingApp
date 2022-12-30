@@ -13,6 +13,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.HashSet;
 
 public class addnoteactivity extends AppCompatActivity {
@@ -74,16 +76,17 @@ public class addnoteactivity extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sh = getApplicationContext().getSharedPreferences("com.example.notetakingapp", Context.MODE_PRIVATE);
-                MainActivity.notes.add(note);
-                MainActivity.titles.add(titleadd);
+                MainActivity.notes.add(new Note(titleadd,note));
 
+
+                SharedPreferences sharedPreferences = getSharedPreferences("notes", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(MainActivity.notes);
+                editor.putString("notes",json);
+                editor.apply();
                 MainActivity.adapter.notifyDataSetChanged();
 
-                HashSet<String> setN = new HashSet<>(MainActivity.notes);
-                sh.edit().putStringSet("notes",setN).apply();
-                HashSet<String> setT = new HashSet<>(MainActivity.titles);
-                sh.edit().putStringSet("titles",setT).apply();
                 Toast.makeText(getApplicationContext(),"Note saved",Toast.LENGTH_SHORT).show();
                 finish();
 

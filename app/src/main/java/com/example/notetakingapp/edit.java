@@ -20,6 +20,8 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+
 import java.util.Calendar;
 import java.util.HashSet;
 
@@ -37,7 +39,7 @@ public class edit extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         System.out.println("IT STARTED AT LEAST");
         setContentView(R.layout.activity_edit);
-        EditText t = (EditText) findViewById(R.id.Textedit);
+        EditText notetext = (EditText) findViewById(R.id.Textedit);
         EditText title = (EditText) findViewById(R.id.title2);
         Intent intent = getIntent();
         int noteid = intent.getIntExtra("noteID",-1);
@@ -52,10 +54,10 @@ public class edit extends AppCompatActivity {
 
         if(noteid != -1){
 
-            t.setText(MainActivity.notes.get(noteid));
+            notetext.setText(MainActivity.notes.get(noteid).getDescription());
         }
         if(noteid != -1) {
-            title.setText(MainActivity.titles.get(noteid));
+            title.setText(MainActivity.notes.get(noteid).getName());
         }
 
 
@@ -65,8 +67,8 @@ public class edit extends AppCompatActivity {
             public void onClick(View view) {
                 Intent send = new Intent(Intent.ACTION_SEND);
                 send.setType("text/plain");
-                String shareTittle = MainActivity.titles.get(noteid);
-                String shareNote = MainActivity.notes.get(noteid);
+                String shareTittle = MainActivity.notes.get(noteid).getName();
+                String shareNote = MainActivity.notes.get(noteid).getDescription();
                 String shareboth = shareTittle+": "+shareNote;
                 send.putExtra(Intent.EXTRA_TEXT,shareboth);
                 startActivity(Intent.createChooser(send,"Share with"));
@@ -104,7 +106,7 @@ public class edit extends AppCompatActivity {
             }
         });
 
-        t.addTextChangedListener(new TextWatcher() {
+        notetext.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
@@ -125,14 +127,21 @@ public class edit extends AppCompatActivity {
         done.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.notes.set(noteid,notechange);
-                MainActivity.titles.set(noteid,titlechange);
+                if(titlechange != null){
+                    MainActivity.notes.get(noteid).setName(titlechange);
+                }
+                if(notechange != null){
+                    MainActivity.notes.get(noteid).setDescription(notechange);
+                }
 
-                SharedPreferences sh = getApplicationContext().getSharedPreferences("com.example.notetakingapp", Context.MODE_PRIVATE);
-                HashSet<String> setT = new HashSet<>(MainActivity.titles);
-                sh.edit().putStringSet("titles",setT).apply();
-                HashSet<String> setN = new HashSet<>(MainActivity.notes);
-                sh.edit().putStringSet("notes",setN).apply();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("notes", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                Gson gson = new Gson();
+                String json = gson.toJson(MainActivity.notes);
+                editor.putString("notes",json);
+                editor.apply();
+
                 MainActivity.adapter.notifyDataSetChanged();
                 Toast.makeText(getApplicationContext(),"Note edited",Toast.LENGTH_SHORT).show();
                 finish();
@@ -145,16 +154,18 @@ public class edit extends AppCompatActivity {
         delete.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                t.setText("");
-                title.setText("");
-                MainActivity.titles.remove(noteid);
                 MainActivity.notes.remove(noteid);
+
+//                t.setText("");
+//                title.setText("");
+//                MainActivity.titles.remove(noteid);
+//                MainActivity.notes.remove(noteid);
                 MainActivity.adapter.notifyDataSetChanged();
-                SharedPreferences sh = getApplicationContext().getSharedPreferences("com.example.notetakingapp", Context.MODE_PRIVATE);
-                HashSet<String> setN = new HashSet<>(MainActivity.notes);
-                HashSet<String> setT = new HashSet<>(MainActivity.titles);
-                sh.edit().putStringSet("notes",setN).apply();
-                sh.edit().putStringSet("titles",setT).apply();
+//                SharedPreferences sh = getApplicationContext().getSharedPreferences("com.example.notetakingapp", Context.MODE_PRIVATE);
+//                HashSet<String> setN = new HashSet<>(MainActivity.notes);
+//                HashSet<String> setT = new HashSet<>(MainActivity.titles);
+//                sh.edit().putStringSet("notes",setN).apply();
+//                sh.edit().putStringSet("titles",setT).apply();
 
                 finish();
 

@@ -2,13 +2,13 @@ package com.example.notetakingapp;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.app.AppCompatDelegate;
 
-import android.content.Context;
+
 import android.content.Intent;
 import android.content.SharedPreferences;
 
 import android.os.Bundle;
+
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,14 +21,17 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
+
+import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.HashSet;
+
 
 public class MainActivity extends AppCompatActivity {
 
-   static ArrayList<String> notes = new ArrayList<>();
-   static ArrayList<String> titles = new ArrayList<>();
+   static ArrayList<Note> notes = new ArrayList<>();
 
     static ArrayAdapter adapter;
 
@@ -45,13 +48,8 @@ public class MainActivity extends AppCompatActivity {
         switch(item.getItemId()){
             case R.id.deleteall:
                 notes.clear();
-                titles.clear();
+                saveData();
                 MainActivity.adapter.notifyDataSetChanged();
-                SharedPreferences sh = getApplicationContext().getSharedPreferences("com.example.notetakingapp", Context.MODE_PRIVATE);
-                HashSet<String> setN = new HashSet<>(notes);
-                HashSet<String> setT = new HashSet<>(titles);
-                sh.edit().putStringSet("notes",setN).apply();
-                sh.edit().putStringSet("titles",setT).apply();
                 Toast.makeText(this,"All notes have been deleted",Toast.LENGTH_LONG).show();
                 break;
             case R.id.Hint:
@@ -62,12 +60,32 @@ public class MainActivity extends AppCompatActivity {
         return true;
 
     }
+        public void saveData(){
+         SharedPreferences sharedPreferences = getSharedPreferences("notes", MODE_PRIVATE);
+         SharedPreferences.Editor editor = sharedPreferences.edit();
+            Gson gson = new Gson();
+            String json = gson.toJson(notes);
+            editor.putString("notes",json);
+            editor.apply();
+        }
+
+        public void loadData(){
+            SharedPreferences sharedPreferences = getSharedPreferences("notes", MODE_PRIVATE);
+            Gson gson = new Gson();
+            String json = sharedPreferences.getString("notes",null);
+            Type type = new TypeToken<ArrayList<Note>>() {}.getType();
+            notes = gson.fromJson(json,type);
+
+
+
+        }
 
     public void hintDialog(){
         HintDialog hintDialog = new HintDialog();
         hintDialog.show(getSupportFragmentManager(),"hintdialog");
 
     }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,32 +98,29 @@ public class MainActivity extends AppCompatActivity {
 
 
         ListView listView = (ListView) findViewById(R.id.listview);
+        loadData();
 
-        SharedPreferences sh = getApplicationContext().getSharedPreferences("com.example.notetakingapp", Context.MODE_PRIVATE);
-
-        HashSet<String> setT = (HashSet<String>) sh.getStringSet("titles",null);
-        HashSet<String> setN = (HashSet<String>) sh.getStringSet("notes",null);
+        System.out.println(notes);
 
 
+        if(notes.size() <= 0){
 
-
-        if(setN == null || setT == null){
-
-            titles.add("example");
-
-            notes.add("u can put here the note");
+            notes.add(new Note("Example","This is a example note, here you can write your note"));
+            saveData();
 
         }else{
-            notes = new ArrayList(setN);
-            titles = new ArrayList(setT);
+            notes = new ArrayList(notes);
+
 
 
         }
 
-         adapter = new ArrayAdapter(getApplicationContext(), R.layout.text,titles);
+         adapter = new ArrayAdapter(getApplicationContext(), R.layout.text,notes);
 
         listView.setAdapter(adapter);
         Button add = findViewById(R.id.button);
+
+
 
 
         add.setOnClickListener(new View.OnClickListener() {
